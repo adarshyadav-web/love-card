@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffd6e0, #ffe6f0);
+            overflow-x: hidden;
+        }
+
+        /* 💖 INTRO */
+        .intro {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, #ff4d6d, #000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            z-index: 10;
+        }
+
+        .typing {
+            border-right: 2px solid white;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.2rem;
+            min-height: 1.6em;
+        }
+
+        /* 💕 MAIN */
+        .main {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            /* FIX: hearts/text ko main ke andar rakhne ke liye */
+            min-height: 100vh;
+            overflow: hidden;
+            /* FIX: elements bahar na jayein */
+        }
+
+        h2 {
+            color: #ff1e56;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 🖼 IMAGE EFFECT */
+        .img-box {
+            display: inline-block;
+            perspective: 1000px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .img-box img {
+            width: 280px;
+            border-radius: 20px;
+            transition: 0.4s;
+        }
+
+        .img-box:hover img {
+            transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 0, 100, 0.6);
+        }
+
+        .btn {
+            margin-top: 25px;
+            padding: 14px 28px;
+            background: linear-gradient(45deg, #ff1e56, #ff6f91);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+            transition: 0.2s;
+        }
+
+        /* 💌 LETTER FULL SCREEN */
+        .letter {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ffe6f0, #ffc2d1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            transform: scale(0);
+            opacity: 0;
+            transition: 0.6s;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        .letter.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .letter-content {
+            z-index: 5;
+            /* FIX: hearts ke upar content dikhe */
+            max-width: 500px;
+            font-size: 1.3rem;
+            color: #d6336c;
+            position: relative;
+            /* FIX: z-index kaam karne ke liye */
+            padding: 20px;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #ff4d6d;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            /* FIX: z-index kaam karne ke liye */
+            z-index: 5;
+        }
+
+        .back-btn:hover {
+            opacity: 0.85;
+            transition: 0.2s;
+        }
+
+        /* ❤️ floating hearts */
+        .heart,
+        .love-text {
+            position: absolute;
+            bottom: -30px;
+            /* FIX: thoda aur neeche se start ho */
+            animation: floatUp linear infinite;
+            pointer-events: none;
+            /* FIX: clicks block na ho */
+            z-index: 1;
+            /* FIX: content ke neeche rahe */
+        }
+
+        .heart {
+            font-size: 20px;
+        }
+
+        .love-text {
+            font-size: 14px;
+            color: #ff1e56;
+            font-weight: bold;
+        }
+
+        /* 🎈 balloons */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 💖 INTRO -->
+    <div class="intro" id="intro">
+        <h1>For Someone Special ❤️</h1>
+        <div class="typing" id="typing"></div>
+    </div>
+
+    <!-- 💕 MAIN -->
+    <div class="main" id="main">
+        <h2>Hello bubu ❤️</h2>
+
+        <div class="img-box">
+            <img src="sonali-ke-babu.jpg" alt="Special Someone">
+        </div>
+
+        <br>
+        <button class="btn" onclick="openLetter()">Open 💌</button>
+    </div>
+
+    <!-- 💌 LETTER -->
+    <div class="letter" id="letter">
+        <div class="letter-content">
+            I don't know how to explain this… ❤️<br><br>
+            You are not just someone,<br>
+            You are my favorite feeling 💖<br><br>
+            I'll always choose you… 💕
+        </div>
+
+        <button class="back-btn" onclick="closeLetter()">⬅ Back</button>
+    </div>
+
+    <!-- 🎵 MUSIC -->
+    <audio id="music" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const intro = document.getElementById("intro");
+        const main = document.getElementById("main");
+        const letter = document.getElementById("letter");
+
+        // ✅ FIX: typing animation — cursor blink band ho jaye text complete hone ke baad
+        const text = "Before you see this... feel it 💖";
+        let i = 0;
+        const typingEl = document.getElementById("typing");
+
+        function type() {
+            if (i < text.length) {
+                typingEl.innerHTML = text.slice(0, i + 1);
+                i++;
+                setTimeout(type, 50);
+            } else {
+                // FIX: cursor blink band karo
+                typingEl.style.borderRight = "none";
+                setTimeout(() => {
+                    intro.style.display = "none";
+                    main.style.display = "block";
+                }, 1200);
+            }
+        }
+
+        type();
+
+        function openLetter() {
+            letter.classList.add("active");
+            // ✅ FIX: music play karo — browser block kare toh silently ignore
+            const music = document.getElementById("music");
+            music.play().catch(() => {
+                // Autoplay blocked by browser — koi baat nahi
+            });
+        }
+
+        function closeLetter() {
+            letter.classList.remove("active");
+        }
+
+        // ❤️ hearts
+        function createHeart(container) {
+            let el = document.createElement("div");
+            el.className = "heart";
+            el.innerHTML = "❤️";
+            el.style.left = Math.random() * 100 + "vw";
+            el.style.animationDuration = (3 + Math.random() * 3) + "s";
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 6000);
+        }
+
+        // 💖 love text
+        function createLoveText(container, textVal) {
+            let el = document.createElement("div");
+            el.className = "love-text";
+            el.innerHTML = textVal;
+            el.style.left = Math.random() * 90 + "vw";   // FIX: 90 taaki text screen se bahar na jaye
+            el.style.animationDuration = (4 + Math.random() * 3) + "s";
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 7000);
+        }
+
+        // EXISTING animations (letter)
+        setInterval(() => createHeart(letter), 300);
+        setInterval(() => createLoveText(letter, "LOVE"), 500);
+
+        // MAIN PAGE animations
+        setInterval(() => createHeart(main), 300);
+        setInterval(() => createLoveText(main, "Special For You ❤️"), 500);
+    </script>
+
+</body>
+
+</html>
